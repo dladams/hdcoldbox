@@ -1,0 +1,42 @@
+# vdproc.fcl
+
+#include "hdcoldbox_raw_dataprep.fcl"
+
+physics.producers.caldata.LogLevel: 3
+
+services.RawDigitPrepService.ToolNames: [
+  digitReader,            # Unpack the digits acd.raw[] and acd.pedestal
+  chtr_hdcbz,
+  chtr_hdcbc,
+  chtr_hdcbi,
+  pdcht_Cplanes,
+  pdcht_Iplanes,
+  pdtps_adcChannelPedestalPlotter,
+  pdtps_adcChannelPedestalNoisePlotter,
+  pdtps_adcChannelRawRmsPlotter,
+  adcSampleFiller,        # Fill acd.samples from acd.raw - pedestal
+  adcScaleAdcToKe,        # Apply (nominal) charge calibration.
+  chtp_hdcbz,
+  chtp_hdcbc,
+  chtp_hdcbi,
+  pdtps_adcChannelSamRmsPlotter,
+#  vdbcb_adcChannelSamRmsPlotter,     # Plot ADC-pedestal RMS
+#  vdbcb_adcChannelSamRms30Plotter,
+#  vdbcb_adcChannelSamRms50Plotter,
+#  adcRoiTreeMaker,
+  adcKeepAllSignalFinder  # Flag all samples as signal, i.e. acd.signal[] = true
+]
+
+tools.adcScaleAdcToKe.ScaleFactor: 0.025
+
+tools.vdbcb_adcChannelSamRmsPlotter.MetricMax: 1.25
+tools.vdbcb_adcChannelSamRms30Plotter.MetricMax: 25.0
+
+tools.vdbcb_adcChannelSamRmsPlotter.PlotFileName: "chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%.{png,tpad}"
+
+tools.adcRoiTreeMaker.MetadataFields: [apaFembID, fembChannel, samRms, samRms30, samRms50]
+#physics.producers.caldata.Event: 2
+
+#physics.producers.caldata.ChannelGroups: ["all"]
+
+#include "evsel.fcl"

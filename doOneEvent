@@ -1,0 +1,59 @@
+#!/bin/sh
+
+ACT=$1
+RUN=$2
+EVT=$3
+SKIP=$(($EVT - 1))
+NEVT=1
+OPT=$4
+if [ "$1" = "-h" -o -z "$ACT" -o -z "$RUN" -o -z "$EVT" ]; then
+  echo "Usage $0 ACT RUN EVT [OPT]"
+  echo "   or $0 ACT RUN_FILE EVT [OPT]"
+  echo "  Top level fcl is ACT.fcl"
+  echo "  RUN = run number or RUN_FILE"
+  echo "  EVT = event number"
+  echo "  OPT = option for duneproc, e.g. retry"
+  exit 0
+fi
+if ! [ $EVT -eq $EVT ] 2>/dev/null; then
+  echo EVT must be a number
+  exit 1
+fi
+FRUN=0$RUN
+FEVT=$EVT
+while [ ${#FEVT} -lt 3 ]; do FEVT=0$FEVT; done
+XFCL=event$FEVT
+RUNDIR=$ACT/hdcb$FRUN/$XFCL
+
+# Check the fcl exists
+REM=$ACT
+while [ $REM != . ]; do
+  FCL=$(basename $REM)
+  if ! fcldump $FCL.fcl 2>&1 1>/dev/null; then
+    echo Fcl not found: $FCL.fcl
+    exit 1
+  fi
+  REM=$(dirname $REM)
+done
+
+hdcbFindFiles $(basename $RUN) -
+DSNAME=hdcb$FRUN
+DSFILE=$HOME/data/dune/datasets/hdcb/$DSNAME.txt
+if [ ! -r $DSFILE ]; then
+  echo Unable to find $DSFILE
+  exit 2
+fi
+echo duneproc $ACT hdcb$FRUN/$XFCL noxrootd $NEVT $SKIP $OPT
+duneproc $ACT $DSNAME/$XFCL noxrootd $OPT
+
+OUTBASE=$HOME/xfer/2021
+if [ -r $OUTBASE ]; then
+  OUTDIR=$OUTBASE/$(date +%m%d)/$ACT/run$FRUN/$XFCL
+  if [ ! -r $OUTDIR ]; then
+    echo Creating output directory $OUTDIR
+    mkdir -p $OUTDIR
+  fi
+  echo Output directory: $OUTDIR
+  cp $RUNDIR/*.png $OUTDIR
+  ls -ls $OUTDIR
+fi

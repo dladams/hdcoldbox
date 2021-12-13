@@ -1,0 +1,16 @@
+physics.filters: {
+  evsel: {
+    module_type: DuneEventFilter
+    LogLevel: 3
+    SelectEvents: []
+    RejectEvents: []
+    EventBegin: 0
+    EventEnd: 0
+    EventModFreq: 0
+    EventModVal: 0
+    JobIndexRangeTool: "jobRanges"
+    SkipEventTool: ""
+  }
+}
+
+physics.produce: [evsel, caldata]
