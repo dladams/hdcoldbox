@@ -46,7 +46,7 @@ fi
 echo duneproc $ACT hdcb$FRUN/$XFCL noxrootd $NEVT $SKIP $OPT
 duneproc $ACT $DSNAME/$XFCL noxrootd $OPT
 
-OUTBASE=$HOME/xfer/2021
+OUTBASE=$HOME/xfer/$(date +%Y)
 if [ -r $OUTBASE ]; then
   OUTDIR=$OUTBASE/$(date +%m%d)/$ACT/run$FRUN/$XFCL
   if [ ! -r $OUTDIR ]; then
