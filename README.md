@@ -1,8 +1,8 @@
 # hdcoldbox
 David Adams  
-April 2022
+July 2022
 
-Software to analyzing data from the 2021 horizontal-drift cold box test.
+Software to analyzing data from the 2021 and 2022 horizontal-drift cold box tests.
 
 ## Installation
 
@@ -102,7 +102,9 @@ There is also helper script to run this command:
 ./doOneEvent hdproc 12242 1
 </pre>
 
-Note: The above instructions assume you are using duneproc (https://github.com/dladams/duneproc).
+July 14, 2022: The top-level fcl hdproc.fcl has been modified to look at recent APA2 data. Edit that file following comments therein to look at 2021 data.
+
+Note 2: The above instructions assume you are using duneproc (https://github.com/dladams/duneproc).
 If not (and no one is saying you should), you will have to compose your own lar command lines and
 the first argument in the above commands is the base of the fcl file (i.e. hdproc means hdproc.fcl)
 you can take from this package.
