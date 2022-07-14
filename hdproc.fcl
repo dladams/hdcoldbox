@@ -1,6 +1,10 @@
 # vdproc.fcl
 
-#include "hdcoldbox_raw_dataprep.fcl"
+# For 2021 testing.
+##include "hdcoldbox_raw_dataprep.fcl"
+
+# For APA testing aroung July 13-14, 2022
+#include "hdcoldboxwib3_raw_dataprep.fcl"
 
 physics.producers.caldata.LogLevel: 3
 

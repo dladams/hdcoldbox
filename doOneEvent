@@ -43,8 +43,8 @@ if [ ! -r $DSFILE ]; then
   echo Unable to find $DSFILE
   exit 2
 fi
-echo duneproc $ACT hdcb$FRUN/$XFCL noxrootd $NEVT $SKIP $OPT
-duneproc $ACT $DSNAME/$XFCL noxrootd $OPT
+echo duneproc $ACT hdcb$FRUN/$XFCL $NEVT $SKIP $OPT
+duneproc $ACT $DSNAME/$XFCL $OPT
 
 OUTBASE=$HOME/xfer/$(date +%Y)
 if [ -r $OUTBASE ]; then
