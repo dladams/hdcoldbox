@@ -1,0 +1,28 @@
+tools.channelGroupsColdbox: {
+    ApaNumbers: [1]
+    IndexRangeTool: "channelRanges"
+    LogLevel: 0
+    tool_type: "ApaChannelGroups"
+  }
+tools.channelRanges: @local::tools.channelRangesColdbox
+tools.channelGroups: @local::tools.channelGroupsColdbox
+data.hdcb_fembu:
+ [femb101u, femb102u, femb103u, femb104u, femb105u, femb106u, femb107u, femb108u, femb109u, femb110u,
+  femb111u, femb112u, femb113u, femb114u, femb115u, femb116u, femb117u, femb118u, femb119u, femb120u]
+data.hdcb_fembv:
+ [femb101v, femb102v, femb103v, femb104v, femb105v, femb106v, femb107v, femb108v, femb109v, femb110v,
+  femb111v, femb112v, femb113v, femb114v, femb115v, femb116v, femb117v, femb118v, femb119v, femb120v]
+data.hdcb_fembx:
+ [femb101x, femb102x, femb103x, femb104x, femb105x, femb106x, femb107x, femb108x, femb109x, femb110x,
+  femb111x, femb112x, femb113x, femb114x, femb115x, femb116x, femb117x, femb118x, femb119x, femb120x]
+data.hdcb_fembviews:
+ [femb101, femb102, femb103, femb104, femb105, femb106, femb107, femb108, femb109, femb110,
+  femb111, femb112, femb113, femb114, femb115, femb116, femb117, femb118, femb119, femb120]
+
+# Old (no weighting) CNR tool.
+tools.hdcb_cnr: {
+  tool_type: CnrByGroup
+  LogLevel: 2
+  Options: ["median"]
+  Groups: @local::data.hdcb_fembviews
+}
