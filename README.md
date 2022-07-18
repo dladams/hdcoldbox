@@ -1,21 +1,21 @@
 # hdcoldbox
 David Adams  
-July 2022
+July 18, 2022
 
 Software to analyzing data from the 2021 and 2022 horizontal-drift cold box tests.
 
 ## Installation
 
-First install *dunerun* and *duneproc* following the instructions in the
-[*duneproc* README](https://github.com/dladams/duneproc/blob/master/README.md)
-and then clone this package in the aread where you want run, e.g.
+First install *dunerun*, set it up and install *duneproc* following the instructions in the
+[*duneproc* README](https://github.com/dladams/duneproc/blob/master/README.md).
+Then clone this package in the aread where you want run and setup to use duneproc as follows:
 
 <pre>
 cd &lt;some-dir>
 git clone https://github.com/dladams/hdcoldbox.git
 cd hdcoldbox
+./start-shell
 </pre>
-Here \<pkgdir> is a source installation dir which can be removed after installation and the set up defines the env needed for the build command.
 
 ## Available commands
 
@@ -41,6 +41,14 @@ duneproc> duneprocHelp hdcb
 duneproc> 
 </pre>
 
+The electronics and channel maps have changed between coldbox runs and the readout configuration must change accordingly.
+Issue [#1](../../issues/1) proposes to automate this but, until that is implemented, the top-level config files are appropriate for onely
+one run period and users may need to adjust these to look at data from other periods.
+See comments in the top-level config for help with that adjustment.
+Right now (July 18, 2022), the configs support the current test of APA2.
+The following example is for an older run and won't work out of the box.
+Substitute a current run number to use the SW as it stands.
+
 List the files for a run:
 <pre>
 duneproc> hdcbFindFiles -h
@@ -48,63 +56,76 @@ Usage: /home/dladams/proc/install/v09_46_00_00/duneproc/bin/hdcbFindFiles RUNPAT
   RUNPAT is run number or RUN_FFFF where FFFF is the file index.
   DIR is the directory to write the file list.
   If DIR="-", /home/dladams/data/dune/datasets/hdcb is used.
-duneproc> hdcbFindFiles 12242
-np04_coldbox_run012242_0000_20211208T153442.hdf5
-np04_coldbox_run012242_0001_20211208T153634.hdf5
-np04_coldbox_run012242_0002_20211208T153826.hdf5
-np04_coldbox_run012242_0003_20211208T154018.hdf5
-np04_coldbox_run012242_0004_20211208T154210.hdf5
-np04_coldbox_run012242_0005_20211208T154402.hdf5
-np04_coldbox_run012242_0006_20211208T154554.hdf5
-np04_coldbox_run012242_0007_20211208T154746.hdf5
+duneproc> hdcbFindFiles 14201
+np04_coldbox_run014201_0000_dataflow0_20220713T083046.hdf5
+np04_coldbox_run014201_0001_dataflow0_20220713T084916.hdf5
+np04_coldbox_run014201_0002_dataflow0_20220713T090746.hdf5
+np04_coldbox_run014201_0003_dataflow0_20220713T092616.hdf5
+np04_coldbox_run014201_0004_dataflow0_20220713T094446.hdf5
+np04_coldbox_run014201_0005_dataflow0_20220713T100316.hdf5
+np04_coldbox_run014201_0006_dataflow0_20220713T102146.hdf5
+np04_coldbox_run014201_0007_dataflow0_20220713T104016.hdf5
+np04_coldbox_run014201_0008_dataflow0_20220713T105846.hdf5
+np04_coldbox_run014201_0009_dataflow0_20220713T111716.hdf5
+np04_coldbox_run014201_0010_dataflow0_20220713T113546.hdf5
+np04_coldbox_run014201_0011_dataflow0_20220713T115416.hdf5
+np04_coldbox_run014201_0012_dataflow0_20220713T121246.hdf5
 duneproc> 
 </pre>
 
-Having found files for the run, we define a dataset that includes these files adding a second argument that writes this definition to a standard location:
+The script *doOneEvent* may be used to process a single event.
+The first argment is the base name of the top-level config file.
+To make raw data noise plots for furn 14201 event 1:
 <pre>
-duneproc> hdcbFindFiles 12242 -
-Output directory not found: /home/dladams/data/dune/datasets/hdcb
-duneproc> mkdir -p /home/dladams/data/dune/datasets/hdcb
-duneproc> hdcbFindFiles 12242 -
-np04_coldbox_run012242_0000_20211208T153442.hdf5
-np04_coldbox_run012242_0001_20211208T153634.hdf5
-np04_coldbox_run012242_0002_20211208T153826.hdf5
-np04_coldbox_run012242_0003_20211208T154018.hdf5
-np04_coldbox_run012242_0004_20211208T154210.hdf5
-np04_coldbox_run012242_0005_20211208T154402.hdf5
-np04_coldbox_run012242_0006_20211208T154554.hdf5
-np04_coldbox_run012242_0007_20211208T154746.hdf5
-Dataset written to /home/dladams/data/dune/datasets/hdcb/hdcb012242.txt
-duneproc> 
-</pre>
-
-Generate displays and metric vs. channel plots for one event using hdproc.fcl from the *hdcoldbox* package:
-<pre>
-duneproc> duneproc hdproc hdcb012242/event0001 noxrootd
-FOUND input file list: /nashome/d/dladams/data/dune/datasets/hdcb/hdcb012242.txt
-RUNDIR = hdproc/hdcb012242/event0001
-Run directory: hdproc/hdcb012242/event0001
-Taking input files from /nashome/d/dladams/data/dune/datasets/hdcb/hdcb012242.txt
-Copying hdproc.fcl from submission directory.
-makeFcl: Created event0001.fcl
-Not found: /nashome/d/dladams/proc/v09_46_00_00/hdcoldbox/local.fcl
-Not found: /nashome/d/dladams/proc/v09_46_00_00/hdcoldbox/dbg.fcl
+duneproc> ./doOneEvent hdproc 14201 1
+np04_coldbox_run014201_0000_dataflow0_20220713T083046.hdf5
+np04_coldbox_run014201_0001_dataflow0_20220713T084916.hdf5
+np04_coldbox_run014201_0002_dataflow0_20220713T090746.hdf5
+np04_coldbox_run014201_0003_dataflow0_20220713T092616.hdf5
+np04_coldbox_run014201_0004_dataflow0_20220713T094446.hdf5
+np04_coldbox_run014201_0005_dataflow0_20220713T100316.hdf5
+np04_coldbox_run014201_0006_dataflow0_20220713T102146.hdf5
+np04_coldbox_run014201_0007_dataflow0_20220713T104016.hdf5
+np04_coldbox_run014201_0008_dataflow0_20220713T105846.hdf5
+np04_coldbox_run014201_0009_dataflow0_20220713T111716.hdf5
+np04_coldbox_run014201_0010_dataflow0_20220713T113546.hdf5
+np04_coldbox_run014201_0011_dataflow0_20220713T115416.hdf5
+np04_coldbox_run014201_0012_dataflow0_20220713T121246.hdf5
+Dataset written to /home/dladams/data/dune/datasets/hdcb/hdcb014201.txt
+duneproc hdproc hdcb014201/event001 1 0
+FOUND input file list: /home/dladams/data/dune/datasets/hdcb/hdcb014201.txt
+RUNDIR = hdproc/hdcb014201/event001
+Run directory: hdproc/hdcb014201/event001
+Taking input files from /home/dladams/data/dune/datasets/hdcb/hdcb014201.txt
 .
 .
 .
+Run directory: hdproc/hdcb014201/event001
+ARGS: -c run.fcl -s --nskip 0
+Command: lar -c run.fcl -S infiles.txt --nskip 0 --no-output
+Creating output directory /home/dladams/xfer/2022/0718/hdproc/run014201/event001
+Output directory: /home/dladams/xfer/2022/0718/hdproc/run014201/event001
+total 11537
+1120 -rw-r--r--. 1 dladams fnalgrid 1146790 Jul 18 14:52 adcprp_tpp0c_run014201_evt000001.png
+1743 -rw-r--r--. 1 dladams fnalgrid 1784218 Jul 18 14:52 adcprp_tpp0u_run014201_evt000001.png
+1727 -rw-r--r--. 1 dladams fnalgrid 1768130 Jul 18 14:52 adcprp_tpp0v_run014201_evt000001.png
+1126 -rw-r--r--. 1 dladams fnalgrid 1152929 Jul 18 14:52 adcprp_tpp0z_run014201_evt000001.png
+1125 -rw-r--r--. 1 dladams fnalgrid 1151588 Jul 18 14:52 adcraw_tpp0c_run014201_evt000001.png
+1747 -rw-r--r--. 1 dladams fnalgrid 1788799 Jul 18 14:52 adcraw_tpp0u_run014201_evt000001.png
+1730 -rw-r--r--. 1 dladams fnalgrid 1771477 Jul 18 14:52 adcraw_tpp0v_run014201_evt000001.png
+1131 -rw-r--r--. 1 dladams fnalgrid 1157738 Jul 18 14:52 adcraw_tpp0z_run014201_evt000001.png
+  13 -rw-r--r--. 1 dladams fnalgrid   12387 Jul 18 14:52 chmet_pednoise_tps0_run014201_evt000001.png
+  28 -rw-r--r--. 1 dladams fnalgrid   28493 Jul 18 14:52 chmet_pedrawrms_tps0_run014201_evt000001.png
+  20 -rw-r--r--. 1 dladams fnalgrid   19694 Jul 18 14:52 chmet_ped_tps0_run014201_evt000001.png
+  29 -rw-r--r--. 1 dladams fnalgrid   29090 Jul 18 14:52 chmet_samrms_tps0_run014201_evt000001.png
 </pre>
-Note the noxrootd option is required because this data is in hdf5 format.
-This means we read from pnfs which implies we cannot access the data from FNAL jupyter server so no notebooks :(.
+Note the script copies the gnerated png files to a subdirectory of $HOME/xfer/YYYY where YYYY is the current year
+if that directory exists.
+The adcraw* plots are the noise vs channel vs tick event displays.
+The adcprp apply a calibration that is not yet correctly set and should be ignored.
+TRhe chmet pedrawrms has raw RMS vs channel.
 
-There is also helper script to run this command:
-
-<pre>
-./doOneEvent hdproc 12242 1
-</pre>
-
-July 14, 2022: The top-level fcl hdproc.fcl has been modified to look at recent APA2 data. Edit that file following comments therein to look at 2021 data.
-
-Note 2: The above instructions assume you are using duneproc (https://github.com/dladams/duneproc).
-If not (and no one is saying you should), you will have to compose your own lar command lines and
-the first argument in the above commands is the base of the fcl file (i.e. hdproc means hdproc.fcl)
-you can take from this package.
+Replace hdproc with hdproc-cnr to generate noise plots with CNR (correlated noise removal).
+Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs channel.
+Note, that the plots are generated with a gain of one and the noise units are realls ADC counts
+rathr than the indicated ke/tick.
