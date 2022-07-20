@@ -128,6 +128,8 @@ TRhe chmet pedrawrms has raw RMS vs channel.
 Replace hdproc with hdproc-cnr to generate noise plots with CNR (correlated noise removal).
 Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs channel.
 Note, that the plots are generated with a gain of one and the noise units are realls ADC counts
-rathr than the indicated ke/tick.
+rather than the indicated ke/tick.
+
+## Notes
 
 Juy 20, 2022: This package and dunedataprep were updated to improve the labels on the channel-tick plots. See [dunedataprep issue 5](https://github.com/DUNE/dunedataprep/issues/5). Users will have too build the head of dunedataprep until that mod is released.
