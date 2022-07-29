@@ -1,18 +1,22 @@
 #!/bin/sh
 
-ACT=$1
+ACTS=$1
 RUN=$2
 EVT=$3
 SKIP=$(($EVT - 1))
 NEVT=1
-OPT=$4
-if [ "$1" = "-h" -o -z "$ACT" -o -z "$RUN" -o -z "$EVT" ]; then
-  echo "Usage $0 ACT RUN EVT [OPT]"
-  echo "   or $0 ACT RUN_FILE EVT [OPT]"
-  echo "  Top level fcl is ACT.fcl"
+OPTS=${@:4}
+if [ "$1" = "-h" -o -z "$ACTS" -o -z "$RUN" -o -z "$EVT" ]; then
+  echo "Usage $0 ACTS RUN EVT [OPT1 OPT2 ...]"
+  echo "   or $0 ACTS RUN_FILE EVT [OPT]"
+  echo "  ACTS = Slash delimited sequence of fcl actions. The top-level"
+  echo "         fcl includes each of these suffixed with .fcl"
   echo "  RUN = run number or RUN_FILE"
   echo "  EVT = event number"
-  echo "  OPT = option for duneproc, e.g. retry"
+  echo "  OPTi = option for duneproc (e.g. retry) or"
+  echo "         CMSE - Use soldered endpoint channel map with hdread."
+  echo "If one of th actions is hdread, then hdread.fcl is created with"
+  echo "unpacking and channel map based on run number."
   exit 0
 fi
 if ! [ $EVT -eq $EVT ] 2>/dev/null; then
@@ -23,10 +27,31 @@ FRUN=0$RUN
 FEVT=$EVT
 while [ ${#FEVT} -lt 3 ]; do FEVT=0$FEVT; done
 XFCL=event$FEVT
-RUNDIR=$ACT/hdcb$FRUN/$XFCL
+RUNDIR=$ACTS/hdcb$FRUN/$XFCL
+
+# Scan the opts.
+DPOPTS=
+USE_CMSE=
+USE_HDREAD=1
+for OPT in ${OPTS[@]}; do
+  if [ $OPT = CMSE ]; then
+    echo Using soldered endpoing channel map.
+    USE_CMSE=1
+  elif [ $OPT = NOHDREAD ]; then
+    echo Not using hdread.
+    USE_HDREAD=
+  else
+    DPOPTS="$DPOPTS $OPT"
+  fi
+done
+
+echo Creating fcl.
+DBG=2
+TMPFCLS=$(./create-fcl $ACTS $RUN $DBG)
+echo Created fcl: $TMPFCLS
 
 # Check the fcl exists
-REM=$ACT
+REM=$ACTS
 while [ $REM != . ]; do
   FCL=$(basename $REM)
   if ! fcldump $FCL.fcl 2>&1 1>/dev/null; then
@@ -36,6 +61,7 @@ while [ $REM != . ]; do
   REM=$(dirname $REM)
 done
 
+
 hdcbFindFiles $(basename $RUN) -
 DSNAME=hdcb$FRUN
 DSFILE=$HOME/data/dune/datasets/hdcb/$DSNAME.txt
@@ -43,12 +69,13 @@ if [ ! -r $DSFILE ]; then
   echo Unable to find $DSFILE
   exit 2
 fi
-echo duneproc $ACT hdcb$FRUN/$XFCL $NEVT $SKIP $OPT
-duneproc $ACT $DSNAME/$XFCL $OPT
+echo duneproc $ACTS hdcb$FRUN/$XFCL $NEVT $SKIP $DPOPTS
+duneproc $ACTS $DSNAME/$XFCL $DPOPTS
+if [ -n "$TMPFCLS" ]; then rm $TMPFCLS; fi
 
 OUTBASE=$HOME/xfer/$(date +%Y)
 if [ -r $OUTBASE ]; then
-  OUTDIR=$OUTBASE/$(date +%m%d)/$ACT/run$FRUN/$XFCL
+  OUTDIR=$OUTBASE/$(date +%m%d)/$ACTS/run$FRUN/$XFCL
   if [ ! -r $OUTDIR ]; then
     echo Creating output directory $OUTDIR
     mkdir -p $OUTDIR

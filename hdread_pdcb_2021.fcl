@@ -1,0 +1,8 @@
+# hdread_pdcb_2021.fcl
+
+# For 2021 APA coldbox tests.
+#include "hdcoldbox_raw_dataprep.fcl"
+data.adcmax: 4096
+
+data.chmap_name: "pdcb_2021"
+data.chmap_type: "offline"

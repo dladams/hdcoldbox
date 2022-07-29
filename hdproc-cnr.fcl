@@ -1,20 +1,12 @@
 # hdproc-cnr.fcl
 
-# For 2021 testing.
-##include "hdcoldbox_raw_dataprep.fcl"
-
-# For APA testing aroung July 13-14, 2022
-#include "hdcoldboxwib3_raw_dataprep.fcl"
+physics.producers.caldata.LogLevel: 3
 
 #include "hdcnr.fcl"
 
-physics.producers.caldata.LogLevel: 3
-
 services.RawDigitPrepService.ToolNames: [
   digitReader,            # Unpack the digits acd.raw[] and acd.pedestal
-  chtr_hdcbz,
-  chtr_hdcbc,
-  chtr_hdcbi,
+  chtr_hdcb,
   pdcht_Cplanes,
   pdcht_Iplanes,
   pdtps_adcChannelPedestalPlotter,
@@ -23,9 +15,7 @@ services.RawDigitPrepService.ToolNames: [
   adcSampleFiller,        # Fill acd.samples from acd.raw - pedestal
   adcScaleAdcToKe,        # Apply (nominal) charge calibration.
   hdcb_cnr,
-  chtp_hdcbz,
-  chtp_hdcbc,
-  chtp_hdcbi,
+  chtp_hdcb,
   pdtps_adcChannelSamRmsPlotter,
 #  vdbcb_adcChannelSamRmsPlotter,     # Plot ADC-pedestal RMS
 #  vdbcb_adcChannelSamRms30Plotter,
@@ -34,6 +24,8 @@ services.RawDigitPrepService.ToolNames: [
   adcKeepAllSignalFinder  # Flag all samples as signal, i.e. acd.signal[] = true
 ]
 
+tools.pdtps_adcChannelPedestalPlotter.MetricMax: @local::data.adcmax
+
 tools.adcScaleAdcToKe.ScaleFactor: 1.0
 
 tools.vdbcb_adcChannelSamRmsPlotter.MetricMax: 40
@@ -41,9 +33,7 @@ tools.vdbcb_adcChannelSamRms30Plotter.MetricMax: 800.0
 
 tools.vdbcb_adcChannelSamRmsPlotter.PlotFileName: "chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%.{png,tpad}"
 
-tools.chtp_hdcbz.MaxSignal: 50
-tools.chtp_hdcbc.MaxSignal: 50
-tools.chtp_hdcbi.MaxSignal: 50
+tools.chtp_hdcb.MaxSignal: 50
 tools.pdtps_adcChannelSamRmsPlotter.MetricMax: 40
 
 tools.adcRoiTreeMaker.MetadataFields: [apaFembID, fembChannel, samRms, samRms30, samRms50]

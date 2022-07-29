@@ -1,0 +1,80 @@
+#!/bin/sh
+
+# create-fcl
+#
+# David Adams
+# July 2022
+
+# Create needed fcl files.
+ACTS=$1
+RUN=$2
+DBG=${3:-0}
+
+if [ "$1" = "-h" -o -z "$ACTS" -o -z "$RUN" ]; then
+  echo "Usage $0 ACTS RUN"
+  echo "  ACTS = Slash delimited sequence of fcl actions: ACT1/ACT2/..."
+  echo "         If action ACTI is recognized, ACTI.fcl is created."
+  echo "  RUN = run number"
+  echo "Recognized actions:"
+  echo "  hdread - Unpack HD raw data uskng the latest off line channel map."
+  echo "           A soldered-end map is used if no offline map is available."
+  echo "  hdreadwi - Unpack HD raw data using the latest offline wire channel map."
+  echo "  hdreadse - Unpack HD raw data using the latest soldered-end channel map."
+  echo "STDOUT: Space-separated list of created fcl files."
+  echo "STDERR: Error messages."
+  echo "Returns the number of failed fcl creates, i.e. 0 for success"
+  exit 0
+fi
+if ! [ $RUN -eq $RUN ] 2>/dev/null; then
+  echo RUN must be a number >&2
+  exit -1
+fi
+
+SOUT=
+NFAIL=0
+for ACT in $(echo $ACTS | sed 's#/# #g'); do
+  EMSG=
+  FFCL=
+  if [ $ACT = hdread -o $ACT = hdreadwi -o $ACT = hdreadse ]; then
+    FFCL=$ACT.fcl
+    if [ $RUN -le 12283 ]; then
+      if [ $ACT = hdread -o $ACT = hdreadwi ]; then
+        cp hdread_pdcb_2021 $FFCL
+      else
+        EMSG="There is no soldered-end map for run $RUN"
+      fi
+    elif [ $RUN -lt 13672 ]; then
+      EMSG="There is no HD readout for run $RUN"
+    elif [ $RUN -le 13368 ]; then
+      if [ $ACT = hdread -o $ACT = hdreadse ]; then
+        cp hdread_pdhd_v1.fcl $FFCL
+      else
+        EMSG="There is no offline wire map for run $RUN"
+      fi
+    elif [ $RUN -le 14174 ]; then
+      if [ $ACT = hdread -o $ACT = hdreadse ]; then
+        cp hdread_pdhd_v0.fcl $FFCL
+      else
+        EMSG="There is no offline wire map for run $RUN"
+      fi
+    else
+      if [ $ACT = hdread -o $ACT = hdreadwi ]; then
+        cp hdread_pdhd_v3.fcl $FFCL
+      else
+        cp hdread_pdhd_v2.fcl $FFCL
+      fi
+    fi
+  else
+    if [ $DBG -ge 2 ]; then EMSG="Skipping $ACT"; fi
+  fi
+  if [ -n "$EMSG" ]; then
+    echo $EMSG >&2
+    NFAIL=$(($NFAIL + 1))
+  elif [ -n "$FFCL" ]; then
+    if [ $DBG -ge 1 ]; then echo Created $FFCL >&2; fi
+    SOUT="$SOUT $FFCL"
+  fi
+done
+ 
+echo $SOUT
+exit $NFAIL

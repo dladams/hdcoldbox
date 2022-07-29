@@ -1,0 +1,11 @@
+# hdread_pdhd_v2.fcl
+
+# For 2022 APA coldbox tests in July-August 2022.
+#include "hdcoldboxwib3_raw_dataprep.fcl"
+data.adcmax: 16192
+
+# Soldered endpoint channel mapping for runs 14175 and later.
+# See https://github.com/DUNE/duneprototypes/tree/develop/duneprototypes/Coldbox/hd/ChannelMap
+services.PD2HDChannelMapService.FileName: "PD2HDChannelMap_v2.txt"
+data.chmap_name: "pdhd_v2"
+data.chmap_type: "se"
