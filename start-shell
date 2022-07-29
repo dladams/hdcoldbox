@@ -1,1 +1,2 @@
 dune-run -e dunesw,xrdhdf5,duneproc shell
+PS1='hdcoldbox> '
