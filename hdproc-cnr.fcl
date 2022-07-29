@@ -1,19 +1,27 @@
 # hdproc-cnr.fcl
 
-physics.producers.caldata.LogLevel: 3
+<<<<<<< HEAD
+=======
+# For 2021 testing.
+##include "hdcoldbox_raw_dataprep.fcl"
+
+# For APA testing aroung July 13-14, 2022
+#include "hdcoldboxwib3_raw_dataprep.fcl"
+
+#include "hdcnr.fcl"
+
+data.MaxNoise: 50
 
 #include "hdcnr.fcl"
 
 services.RawDigitPrepService.ToolNames: [
   digitReader,            # Unpack the digits acd.raw[] and acd.pedestal
   chtr_hdcb,
-  pdcht_Cplanes,
-  pdcht_Iplanes,
   pdtps_adcChannelPedestalPlotter,
   pdtps_adcChannelPedestalNoisePlotter,
   pdtps_adcChannelRawRmsPlotter,
   adcSampleFiller,        # Fill acd.samples from acd.raw - pedestal
-  adcScaleAdcToKe,        # Apply (nominal) charge calibration.
+  #adcScaleAdcToKe,        # Apply (nominal) charge calibration.
   hdcb_cnr,
   chtp_hdcb,
   pdtps_adcChannelSamRmsPlotter,
@@ -33,7 +41,6 @@ tools.vdbcb_adcChannelSamRms30Plotter.MetricMax: 800.0
 
 tools.vdbcb_adcChannelSamRmsPlotter.PlotFileName: "chmet_samrms_%CRNAME%_run%0RUN%_evt%0EVENT%.{png,tpad}"
 
-tools.chtp_hdcb.MaxSignal: 50
 tools.pdtps_adcChannelSamRmsPlotter.MetricMax: 40
 
 tools.adcRoiTreeMaker.MetadataFields: [apaFembID, fembChannel, samRms, samRms30, samRms50]

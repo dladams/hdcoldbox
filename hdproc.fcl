@@ -15,8 +15,6 @@ physics.producers.caldata.LogLevel: 3
 services.RawDigitPrepService.ToolNames: [
   digitReader,            # Unpack the digits acd.raw[] and acd.pedestal
   chtr_hdcb,
-  pdcht_Cplanes,
-  pdcht_Iplanes,
   pdtps_adcChannelPedestalNoisePlotter,
   pdtps_adcChannelPedestalPlotter,
   pdtps_adcChannelRawRmsPlotter,
