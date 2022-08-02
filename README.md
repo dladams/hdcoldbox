@@ -138,4 +138,4 @@ These plots are generated with a gain of one and so the units ADC counts.
 
 ## Notes
 
-Juy 20, 2022: The above are expected to work with dunesw v09_55_01d00 and later.
+Aogust 2, 2022: The above are confirmed to work with dunesw v09_56_00d00.
