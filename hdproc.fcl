@@ -15,12 +15,11 @@ physics.producers.caldata.LogLevel: 3
 services.RawDigitPrepService.ToolNames: [
   digitReader,            # Unpack the digits acd.raw[] and acd.pedestal
   chtr_hdcb,
-  pdtps_adcChannelPedestalNoisePlotter,
   pdtps_adcChannelPedestalPlotter,
   pdtps_adcChannelRawRmsPlotter,
   adcSampleFiller,        # Fill acd.samples from acd.raw - pedestal
   adcScaleAdcToKe,        # Apply (nominal) charge calibration.
-  chtp_hdcb,
+  chtp_hdcb,              # Use chta_hdcb for ADC scale
   pdtps_adcChannelSamRmsPlotter,
   adcKeepAllSignalFinder  # Flag all samples as signal, i.e. acd.signal[] = true
 ]

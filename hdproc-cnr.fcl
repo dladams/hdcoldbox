@@ -9,17 +9,17 @@ services.RawDigitPrepService.ToolNames: [
   pdtps_adcChannelPedestalNoisePlotter,
   pdtps_adcChannelRawRmsPlotter,
   adcSampleFiller,        # Fill acd.samples from acd.raw - pedestal
-  adcScaleAdcToKe,        # Apply (nominal) charge calibration.
+  #adcScaleAdcToKe,        # Apply (nominal) charge calibration.
   hdcb_cnr,
-  chtp_hdcb,
+  chta_hdcb,              # Use chtc_hdcb for calibrated scale
   pdtps_adcChannelSamRmsPlotter,
   adcKeepAllSignalFinder  # Flag all samples as signal, i.e. acd.signal[] = true
 ]
 
 tools.pdtps_adcChannelPedestalPlotter.MetricMax: @local::data.adcmax
 
-tools.adcScaleAdcToKe.ScaleFactor: 1.0
-tools.chtp_hdcb.MaxSignal: 50
+#tools.adcScaleAdcToKe.ScaleFactor: 1.0
+#tools.chtp_hdcb.MaxSignal: 50
 
 tools.pdtps_adcChannelSamRmsPlotter.MetricMax: 40
 
