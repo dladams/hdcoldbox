@@ -134,7 +134,7 @@ The samrms file has the sample RMS with the same questionable calibration.
 
 Replace hdproc with hdproc-cnr to generate noise plots with CNR (correlated noise removal).
 Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs channel.
-These plots are generated with a gain of one and so the units ADC counts.
+These plots are generated with a calibration gain of one and so the units are ADC counts.
 
 ## Notes
 
