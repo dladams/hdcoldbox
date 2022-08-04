@@ -4,6 +4,8 @@ August 2, 2022
 
 Software to analyzing data from the 2021 and 2022 horizontal-drift cold box tests.
 
+Run lists for the 2022 APA tests can be found [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=419431128)
+
 ## Installation
 
 First install *dunerun*, set it up and install *duneproc* following the instructions in the
