@@ -1,0 +1,17 @@
+# wfraw.fcl
+
+# Draw raw waveforms.
+
+services.RawDigitPrepService.ToolNames: [
+  "digitReader",
+  #"pd_adcPedestalFit",
+  "adcPlotRaw"
+]
+
+tools.adcPlotRaw.PlotSigOpt: pedestal
+tools.adcPlotRaw.PlotSigMin: -280.0
+tools.adcPlotRaw.PlotSigMax:  280.0
+tools.adcPlotRaw.PlotFileName: "wfraw_run%0RUN%_evt%0EVENT%_chan%0CHAN%.png"
+#tools.adcPlotRaw.RootFileName: "wf.root"
+
+#include "evsel.fcl"
