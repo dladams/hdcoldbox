@@ -47,7 +47,7 @@ duneproc> duneprocHelp hdcb
 
 duneproc> 
 </pre>
-Some of the gneral duneproc commands may also be of interest:
+Some of the general duneproc commands may also be of interest:
 <pre>
 duneproc> duneprocHelp general
 
@@ -89,7 +89,12 @@ one of these based on run value.
 As demonstrated here, the special name *hdread* (or *hdreadwi* or *hdreadse*) can be used with the *doOneEvent*
 to select the readout fcl using the run number.
 
-To make raw data noise plots for furn 14206 event 1:
+The second action can be any of the following:
+* hdproc -- Generate raw event displays and noise plots
+* hdproc-cnr -- Event displays and noise vs. channel before and after CNR (correlated noise removal).
+* wfrw -- raw waveforms
+
+To make raw data noise plots for run 14206 event 1:
 <pre>
 duneproc> ./doOneEvent hdread/hdproc 14206 1
 Creating fcl.
