@@ -143,6 +143,11 @@ Replace hdproc with hdproc-cnr to generate noise plots with CNR (correlated nois
 Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs channel.
 These plots are generated with a calibration gain of one and so the units are ADC counts.
 
+## Viewing output
+The above and most other jobs produce image files. In Jupyter, these can be viewed by navigating to the run directory in the file browser
+and opening the file(s) of interest.
+To view all images on a single page, open and run the view notebood (view.ipynb) in that directory.
+
 ## Notes
 
 Aogust 2, 2022: The above are confirmed to work with dunesw v09_56_00d00.
