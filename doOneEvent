@@ -73,6 +73,9 @@ echo duneproc $ACTS hdcb$FRUN/$XFCL $NEVT $SKIP $DPOPTS
 duneproc $ACTS $DSNAME/$XFCL $DPOPTS
 if [ -n "$TMPFCLS" ]; then rm $TMPFCLS; fi
 
+echo Copying view.ipynb to $RUNDIR
+cp view.ipynb $RUNDIR
+
 OUTBASE=$HOME/xfer/$(date +%Y)
 if [ -r $OUTBASE ]; then
   OUTDIR=$OUTBASE/$(date +%m%d)/$ACTS/run$FRUN/$XFCL
