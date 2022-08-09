@@ -92,7 +92,7 @@ to select the readout fcl using the run number.
 The second action can be any of the following:
 * hdproc -- Generate raw event displays and noise plots
 * hdproc-cnr -- Event displays and noise vs. channel before and after CNR (correlated noise removal).
-* wfrw -- raw waveforms
+* wfraw -- raw waveforms
 
 To make raw data noise plots for run 14206 event 1:
 <pre>
