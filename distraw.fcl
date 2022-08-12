@@ -1,0 +1,15 @@
+# distraw.fcl
+
+# Draw raw ADC distributions.
+
+services.RawDigitPrepService.ToolNames: [
+  "digitReader",
+  "adcPlotRawDist"
+]
+
+tools.adcPlotRawDist.PlotSigOpt: pedestal
+tools.adcPlotRawDist.PlotSigMin: -150.0
+tools.adcPlotRawDist.PlotSigMax:  150.0
+tools.adcPlotRawDist.PlotFileName: "distraw_run%0RUN%_evt%0EVENT%_chan%0CHAN%.png"
+
+#include "evsel.fcl"

@@ -1,0 +1,16 @@
+# dump.fcl
+
+# Dump TPC data.
+
+services.RawDigitPrepService.ToolNames: [
+  "digitReader",
+  "adcRawDumper"
+]
+
+tools.adcRawDumper.FileName: "dump_adcs.txt"
+tools.adcRawDumper.ShowTickCounts: true
+tools.adcRawDumper.ShowRaw: true
+tools.adcRawDumper.ShowPrepared: false
+tools.adcRawDumper.ShowFlags: true
+
+#include "evsel.fcl"
