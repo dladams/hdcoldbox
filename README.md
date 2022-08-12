@@ -47,7 +47,7 @@ duneproc> duneprocHelp hdcb
 
 duneproc> 
 </pre>
-Some of the gneral duneproc commands may also be of interest:
+Some of the general duneproc commands may also be of interest:
 <pre>
 duneproc> duneprocHelp general
 
@@ -89,7 +89,12 @@ one of these based on run value.
 As demonstrated here, the special name *hdread* (or *hdreadwi* or *hdreadse*) can be used with the *doOneEvent*
 to select the readout fcl using the run number.
 
-To make raw data noise plots for furn 14206 event 1:
+The second action can be any of the following:
+* hdproc -- Generate raw event displays and noise plots
+* hdproc-cnr -- Event displays and noise vs. channel before and after CNR (correlated noise removal).
+* wfraw -- raw waveforms
+
+To make raw data noise plots for run 14206 event 1:
 <pre>
 duneproc> ./doOneEvent hdread/hdproc 14206 1
 Creating fcl.
@@ -137,6 +142,11 @@ The samrms file has the sample RMS with the same questionable calibration.
 Replace hdproc with hdproc-cnr to generate noise plots with CNR (correlated noise removal).
 Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs channel.
 These plots are generated with a calibration gain of one and so the units are ADC counts.
+
+## Viewing output
+The above and most other jobs produce image files. In Jupyter, these can be viewed by navigating to the run directory in the file browser
+and opening the file(s) of interest.
+To view all images on a single page, open and run the view notebood (view.ipynb) in that directory.
 
 ## Notes
 
