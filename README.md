@@ -1,6 +1,6 @@
 # hdcoldbox
 David Adams  
-August 2, 2022
+August 12, 2022
 
 Software to analyzing data from the 2021 and 2022 horizontal-drift cold box tests.
 
@@ -93,6 +93,8 @@ The second action can be any of the following:
 * hdproc -- Generate raw event displays and noise plots
 * hdproc-cnr -- Event displays and noise vs. channel before and after CNR (correlated noise removal).
 * wfraw -- raw waveforms
+* distraw -- ADC distributions for each channel
+* dump -- Text dump of the raw ADC codes for the first few samples
 
 To make raw data noise plots for run 14206 event 1:
 <pre>
