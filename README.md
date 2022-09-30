@@ -1,8 +1,8 @@
 # hdcoldbox
 David Adams  
-August 12, 2022
+September 2022
 
-Software to analyzing data from the 2021 and 2022 horizontal-drift cold box tests.
+Software to analyze data from the 2021 and 2022 horizontal-drift cold box tests.
 
 Run lists for the 2022 APA tests can be found [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=419431128)
 
@@ -10,7 +10,8 @@ Run lists for the 2022 APA tests can be found [here](https://docs.google.com/spr
 
 First install *dunerun*, set it up and install *duneproc* following the instructions in the
 [*duneproc* README](https://github.com/dladams/duneproc/blob/master/README.md).
-Then clone this package in the area where you want run and setup to use duneproc as follows:
+Then clone this package ([hdcoldbox](https://github.com/dladams/hdcoldbox)
+in the area where you want to run, and set up to use duneproc as follows:
 
 <pre>
 cd &lt;some-dir>
@@ -18,9 +19,9 @@ git clone https://github.com/dladams/hdcoldbox.git
 cd hdcoldbox
 ./start-shell
 </pre>
-The last command starts a shell with the environment (exe, library, fcl path and more) specified by the dunesw release and the local build of duneproc
-with the xroot libraries replaced with a version supports streaming of hdf5 data.
-One side effect I see of the latter is that git commands no longer functions properly.
+The last command starts a shell with the environment (exe, library, fcl path and more) specified by the dunesw release and the local build of duneproc.
+It also replaces the xroot libraries replaced with a version supports streaming of hdf5 data.
+One side effect I see of this replacement is that git commands no longer functions properly.
 I handle this by running them after exiting the shell (exit command) or running them from a different terminal.
 
 ## Available commands
@@ -153,3 +154,5 @@ To view all images on a single page, open and run the view notebood (view.ipynb)
 ## Notes
 
 Aogust 2, 2022: The above are confirmed to work with dunesw v09_56_00d00.
+
+Run summary for 2022 is [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=1659477561).
