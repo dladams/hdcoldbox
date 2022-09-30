@@ -141,7 +141,6 @@ The second action can be any of the following:
 To make raw data noise plots for run 16178 event 1:
 <pre>
 duneproc> ./doOneEvent hdread/hdproc 16178 1
-duneproc> ./doOneEvent hdread/hdproc 16178 1
 Creating fcl.
 Created hdread.fcl
 Skipping hdproc
