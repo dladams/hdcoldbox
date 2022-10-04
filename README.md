@@ -1,10 +1,9 @@
 # hdcoldbox
 David Adams  
-September 2022
+October 2022
 
 Software to analyze data from the 2021 and 2022 horizontal-drift cold box tests.
 
-Run lists for the 2022 APA tests can be found [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=419431128)
 
 ## Installation
 
@@ -241,5 +240,7 @@ To view all images on a single page, open and run the view notebood (view.ipynb)
 ## Notes
 
 October 4, 2022: The above are confirmed in a update of v09_58_02d00 and presumed to work in later versions.
+
+Run lists for the 2022 APA tests can be found [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=419431128)
 
 Run summary for 2022 is [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=1659477561).
