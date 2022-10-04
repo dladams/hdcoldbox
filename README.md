@@ -121,6 +121,46 @@ Look at the log or the [staging monitor](https://samweb.fnal.gov:8483/station_mo
 to check the progress of the job.
 Files listed in the log are on disk and ready for processing.
 
+If you want to process a particular event, say event 5 in run 16178, the you can use the implicit dataset name.
+To see the file name and event offset:
+<pre>
+duneproc> findRunFiles hdcb 16178 5
+np04_coldbox_run016178_0000_dataflow0_20220927T101320.hdf5 4
+duneproc> 
+</pre>
+
+To stage that file, use the implicit dataset file name:
+<pre>
+duneproc> stageDuneDataset hdcb-16178-5
+subject   : /DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=David Adams/CN=UID:dladams/CN=362266381
+issuer    : /DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=David Adams/CN=UID:dladams
+identity  : /DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=David Adams/CN=UID:dladams
+type      : RFC compliant proxy
+strength  : 2048 bits
+path      : /tmp/x509up_u6585
+timeleft  : 10:39:36
+
+QUERY: file_name = np04_coldbox_run016178_0000_dataflow0_20220927T101320.hdf5
+Dataset definition 'dladams_hdcb-16178-5' has been created with id 762422
+Staging command: samweb prestage-dataset --node=jupyter-dladams.fnal.gov --defname=dladams_hdcb-16178-5
+
+Log is /home/dladams/data/dune/datasets/logs/stage_hdcb-16178-5.log
+
+Displaying log at /home/dladams/data/dune/datasets/logs/stage_hdcb-16178-5.log.
+Interrupt at any time with ^C.
+Staging dataset dladams_hdcb-16178-5
+Tue Oct  4 14:36:59 UTC 2022
+
+Started project prestage_jupyter_dladams_hdcb-16178-5_20221004143700
+Started consumer processs ID 20930965
+File np04_coldbox_run016178_0000_dataflow0_20220927T101320.hdf5 is staged
+Stopped project prestage_jupyter_dladams_hdcb-16178-5_20221004143700
+
+Tue Oct  4 14:37:11 UTC 2022
+Done
+duneproc> 
+</pre>
+
 The script *doOneEvent* may be used to process a single event.
 The first argument is the *action path*,  slash-separated base names of fcl config file that specify the processing.
 
@@ -138,45 +178,45 @@ The second action can be any of the following:
 * distraw -- ADC distributions for each channel
 * dump -- Text dump of the raw ADC codes for the first few samples
 
-To make raw data noise plots for run 16178 event 1:
+To make raw data noise plots for run 16178 event 5:
 <pre>
-duneproc> ./doOneEvent hdread/hdproc 16178 1
+duneproc> ./doOneEvent hdread/hdproc 16178 5 retry
 Creating fcl.
 Created hdread.fcl
 Skipping hdproc
 Created fcl: hdread.fcl
-Output file already exists: /home/dladams/data/dune/datasets/hdcb/hdcb016178.txt
-duneproc hdread/hdproc hdcb016178/event001 1 0
-Processing input file list: /home/dladams/data/dune/datasets/hdcb/hdcb016178.txt
-RUNDIR = hdread/hdproc/hdcb016178/event001
-Run directory: hdread/hdproc/hdcb016178/event001
-Taking input files from /home/dladams/data/dune/datasets/hdcb/hdcb016178.txt
+duneproc hdread/hdproc hdcb-016178-005/event005 retry
+Processing hdcb event 005 in file np04_coldbox_run016178_0000_dataflow0_20220927T101320.hdf5 using offset 4
+RUNDIR = hdread/hdproc/hdcb-016178-005/event005
+Removing hdread/hdproc/hdcb-016178-005/event005
+Run directory: hdread/hdproc/hdcb-016178-005/event005
+Taking input files from rawinfiles.txt
 Copying hdread.fcl from submission directory.
 Copying hdproc.fcl from submission directory.
-makeFcl: Created event001.fcl
+makeFcl: Created event005.fcl
 Not found: /home/dladams/proc/run01/hdcoldbox/local.fcl
 Not found: /home/dladams/proc/run01/hdcoldbox/dbg.fcl
 .
 .
 .
-Run directory: hdread/hdproc/hdcb016178/event001
-ARGS: -c run.fcl -s --nskip 0
-Command: lar -c run.fcl -S infiles.txt --nskip 0 --no-output
-Copying view.ipynb to hdread/hdproc/hdcb016178/event001
-Creating output directory /home/dladams/xfer/2022/0930/hdread/hdproc/run016178/event001
-Output directory: /home/dladams/xfer/2022/0930/hdread/hdproc/run016178/event001
-total 12072
-1134 -rw-r--r--. 1 dladams fnalgrid 1160754 Sep 30 14:22 adcprp_tpp0c_run016178_evt000001.png
-1863 -rw-r--r--. 1 dladams fnalgrid 1907242 Sep 30 14:22 adcprp_tpp0u_run016178_evt000001.png
-1867 -rw-r--r--. 1 dladams fnalgrid 1910909 Sep 30 14:22 adcprp_tpp0v_run016178_evt000001.png
-1129 -rw-r--r--. 1 dladams fnalgrid 1155290 Sep 30 14:22 adcprp_tpp0z_run016178_evt000001.png
-1138 -rw-r--r--. 1 dladams fnalgrid 1165246 Sep 30 14:22 adcraw_tpp0c_run016178_evt000001.png
-1867 -rw-r--r--. 1 dladams fnalgrid 1911026 Sep 30 14:22 adcraw_tpp0u_run016178_evt000001.png
-1870 -rw-r--r--. 1 dladams fnalgrid 1914699 Sep 30 14:22 adcraw_tpp0v_run016178_evt000001.png
-1134 -rw-r--r--. 1 dladams fnalgrid 1160277 Sep 30 14:22 adcraw_tpp0z_run016178_evt000001.png
-  27 -rw-r--r--. 1 dladams fnalgrid   27072 Sep 30 14:22 chmet_pedrawrms_tps0_run016178_evt000001.png
-  18 -rw-r--r--. 1 dladams fnalgrid   18301 Sep 30 14:22 chmet_ped_tps0_run016178_evt000001.png
-  28 -rw-r--r--. 1 dladams fnalgrid   27679 Sep 30 14:22 chmet_samrms_tps0_run016178_evt000001.png
+Run directory: hdread/hdproc/hdcb-016178-005/event005
+ARGS: -c run.fcl -s -n 1 --nskip 4
+Command: lar -c run.fcl -S infiles.txt -n 1 --nskip 4 --no-output
+Copying view.ipynb to hdread/hdproc/hdcb-016178-005/event005
+Creating output directory /home/dladams/xfer/2022/1004/hdread/hdproc/run016178/event005
+Output directory: /home/dladams/xfer/2022/1004/hdread/hdproc/run016178/event005
+total 12051
+1133 -rw-r--r--. 1 dladams fnalgrid 1159412 Oct  4 14:22 adcprp_tpp0c_run016178_evt000005.png
+1861 -rw-r--r--. 1 dladams fnalgrid 1904832 Oct  4 14:22 adcprp_tpp0u_run016178_evt000005.png
+1863 -rw-r--r--. 1 dladams fnalgrid 1907051 Oct  4 14:22 adcprp_tpp0v_run016178_evt000005.png
+1127 -rw-r--r--. 1 dladams fnalgrid 1153084 Oct  4 14:22 adcprp_tpp0z_run016178_evt000005.png
+1137 -rw-r--r--. 1 dladams fnalgrid 1163986 Oct  4 14:22 adcraw_tpp0c_run016178_evt000005.png
+1864 -rw-r--r--. 1 dladams fnalgrid 1908732 Oct  4 14:22 adcraw_tpp0u_run016178_evt000005.png
+1867 -rw-r--r--. 1 dladams fnalgrid 1910868 Oct  4 14:22 adcraw_tpp0v_run016178_evt000005.png
+1130 -rw-r--r--. 1 dladams fnalgrid 1156790 Oct  4 14:22 adcraw_tpp0z_run016178_evt000005.png
+  27 -rw-r--r--. 1 dladams fnalgrid   26960 Oct  4 14:22 chmet_pedrawrms_tps0_run016178_evt000005.png
+  18 -rw-r--r--. 1 dladams fnalgrid   18351 Oct  4 14:22 chmet_ped_tps0_run016178_evt000005.png
+  27 -rw-r--r--. 1 dladams fnalgrid   27437 Oct  4 14:22 chmet_samrms_tps0_run016178_evt000005.png
 </pre>
 The script copies the generated png files to a subdirectory of $HOME/xfer/YYYY where YYYY is the current year
 if that directory exists.
@@ -190,6 +230,9 @@ Replace hdproc with hdproc-cnr to generate noise plots with CNR (correlated nois
 Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs channel.
 These plots are generated with a calibration gain of one and so the units are ADC counts.
 
+The above job loops over all events in the file and skips the one of interest.
+This is because event skipping and restricted event counts are not upported in lar for the HC coldbox data/
+See [duneprototypes issue 8](https://github.com/DUNE/duneprototypes/issues/8).
 ## Viewing output
 The above and most other jobs produce image files. In Jupyter, these can be viewed by navigating to the run directory in the file browser
 and opening the file(s) of interest.
@@ -197,8 +240,6 @@ To view all images on a single page, open and run the view notebood (view.ipynb)
 
 ## Notes
 
-Aogust 2, 2022: The above are confirmed to work with dunesw v09_56_00d00.
+October 4, 2022: The above are confirmed to work with dunesw v09_56_00d00.
 
 Run summary for 2022 is [here](https://docs.google.com/spreadsheets/d/1wh8qZTL6iZGQxaHKIjkvGPs81b2g6ReBHMYqCpT59yo/edit#gid=1659477561).
-
-Script doOneEvent and the description here will soon be updated to use single-event datasets.
