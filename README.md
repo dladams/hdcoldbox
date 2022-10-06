@@ -230,7 +230,7 @@ Now the adcprp plots have CNR noise vs channel-tick and samrms has noise vs chan
 These plots are generated with a calibration gain of one and so the units are ADC counts.
 
 The above job loops over all events in the file and skips the one of interest.
-This is because event skipping and restricted event counts are not supported in lar for the HD coldbox data/
+This is because event skipping and restricted event counts are not supported in lar for the HD coldbox data.
 See [duneprototypes issue 8](https://github.com/DUNE/duneprototypes/issues/8).
 ## Viewing output
 The above and most other jobs produce image files. In Jupyter, these can be viewed by navigating to the run directory in the file browser
