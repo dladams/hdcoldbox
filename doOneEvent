@@ -3,8 +3,6 @@
 ACTS=$1
 RUN=$2
 EVT=$3
-SKIP=$(($EVT - 1))
-NEVT=1
 OPTS=${@:4}
 if [ "$1" = "-h" -o -z "$ACTS" -o -z "$RUN" -o -z "$EVT" ]; then
   echo "Usage $0 ACTS RUN EVT [OPT1 OPT2 ...]"
@@ -15,7 +13,7 @@ if [ "$1" = "-h" -o -z "$ACTS" -o -z "$RUN" -o -z "$EVT" ]; then
   echo "  EVT = event number"
   echo "  OPTi = option for duneproc (e.g. retry) or"
   echo "         CMSE - Use soldered endpoint channel map with hdread."
-  echo "If one of th actions is hdread, then hdread.fcl is created with"
+  echo "If one of the actions is hdread, then hdread.fcl is created with"
   echo "unpacking and channel map based on run number."
   exit 0
 fi
@@ -26,8 +24,9 @@ fi
 FRUN=0$RUN
 FEVT=$EVT
 while [ ${#FEVT} -lt 3 ]; do FEVT=0$FEVT; done
+DSNAME=hdcb-$FRUN-$FEVT
 XFCL=event$FEVT
-RUNDIR=$ACTS/hdcb$FRUN/$XFCL
+RUNDIR=$ACTS/$DSNAME/$XFCL
 
 # Scan the opts.
 DPOPTS=
@@ -61,15 +60,7 @@ while [ $REM != . ]; do
   REM=$(dirname $REM)
 done
 
-
-hdcbFindFiles $(basename $RUN) -
-DSNAME=hdcb$FRUN
-DSFILE=$HOME/data/dune/datasets/hdcb/$DSNAME.txt
-if [ ! -r $DSFILE ]; then
-  echo Unable to find $DSFILE
-  exit 2
-fi
-echo duneproc $ACTS hdcb$FRUN/$XFCL $NEVT $SKIP $DPOPTS
+echo duneproc $ACTS $DSNAME/$XFCL $DPOPTS
 duneproc $ACTS $DSNAME/$XFCL $DPOPTS
 if [ -n "$TMPFCLS" ]; then rm $TMPFCLS; fi
 
