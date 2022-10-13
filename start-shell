@@ -1,3 +1,8 @@
+XPKGS=$1
+PKGS=dunesw,xrdhdf5,duneproc
+if [ -n "$XPKGS" ]; then
+   PKGS=$PKGS,$XPKGS
+fi
 dunerun-check-proxy
-dune-run -e dunesw,xrdhdf5,duneproc shell
-PS1='hdcoldbox> '
+dune-run -e $PKGS shell
+#PS1='hdcoldbox> '
