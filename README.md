@@ -9,7 +9,7 @@ Software to analyze data from the 2021 and 2022 horizontal-drift cold box tests.
 
 First install *dunerun*, set it up and install *duneproc* following the instructions in the
 [*duneproc* README](https://github.com/dladams/duneproc/blob/master/README.md).
-Then clone this package ([hdcoldbox](https://github.com/dladams/hdcoldbox)
+Then clone this package ([*hdcoldbox*](https://github.com/dladams/hdcoldbox))
 in the area where you want to run, and set up to use duneproc as follows:
 
 <pre>
