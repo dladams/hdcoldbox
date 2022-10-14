@@ -44,10 +44,14 @@ for OPT in ${OPTS[@]}; do
   fi
 done
 
-echo Creating fcl.
-DBG=2
-TMPFCLS=$(./create-fcl $ACTS $RUN $DBG)
-echo Created fcl: $TMPFCLS
+# add precom to create the hdread fcl.
+PRECOM=$(mktemp tmp_precomXXXXXX)
+echo '#!/bin/bash' >>$PRECOM
+echo '' >>$PRECOM
+echo "$(pwd)/create-fcl $ACTS $RUN $DBG" >>$PRECOM
+chmod +x $PRECOM
+DPOPTS="$DPOPTS pre-$PRECOM"
+TMPFILS=$PRECOM
 
 # Check the fcl exists
 REM=$ACTS
@@ -62,7 +66,7 @@ done
 
 echo duneproc $ACTS $DSNAME/$XFCL $DPOPTS
 duneproc $ACTS $DSNAME/$XFCL $DPOPTS
-if [ -n "$TMPFCLS" ]; then rm $TMPFCLS; fi
+if [ -n "$TMPFILS" ]; then rm $TMPFILS; fi
 
 echo Copying view.ipynb to $RUNDIR
 cp view.ipynb $RUNDIR
