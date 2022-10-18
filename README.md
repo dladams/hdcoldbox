@@ -177,6 +177,8 @@ The second action can be any of the following:
 * distraw -- ADC distributions for each channel
 * dump -- Text dump of the raw ADC codes for the first few samples
 
+## Data quality plots
+
 To make raw data noise plots for run 16178 event 5:
 <pre>
 duneproc> ./doOneEvent hdread/hdproc 16178 5 retry
@@ -232,10 +234,21 @@ These plots are generated with a calibration gain of one and so the units are AD
 The above job loops over all events in the file and skips the one of interest.
 This is because event skipping and restricted event counts are not supported in lar for the HD coldbox data.
 See [duneprototypes issue 8](https://github.com/DUNE/duneprototypes/issues/8).
-## Viewing output
+
+### Viewing output
 The above and most other jobs produce image files. In Jupyter, these can be viewed by navigating to the run directory in the file browser
 and opening the file(s) of interest.
 To view all images on a single page, open and run the view notebood (view.ipynb) in that directory.
+
+### Changing the plot range.
+The HD coldbox data are taken in blocks of 8192 ADC samples. This is a lot to view on a typical screen and so typically 1000 are shown.
+To change the displayed range, use the template-generated tick action, e.g. tick3300 to see 1000 ticks starting at 3300
+or tick0-8192 to see the full range.
+E.g. to see some pulser signals:
+<pre>
+./doOneEvent hdread/hdproc/tick3300 16042 1 
+</pre>
+For the full list of template actions, use *duneprocMakeFcl -h*.
 
 ## Notes
 
